@@ -151,11 +151,13 @@
         let height = window.innerHeight - 200;
         bCanvas.width = width;
         bCanvas.height = height;
+
+        // clean dara
+        controlPoints = []
       }
 
       function syncDegree() {
         bezierDegree = parseInt(document.getElementById("bezier-degree").value);
-        console.log(bezierDegree);
       }
     </script>
   </body>
