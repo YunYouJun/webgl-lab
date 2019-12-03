@@ -1,2 +1,3 @@
-# webgl-learn
-Learn webgl
+# webgl-lab
+
+A lab space for learning WebGL.
