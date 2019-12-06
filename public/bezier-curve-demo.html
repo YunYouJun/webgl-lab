@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bézier curve</title>
+    <style>
+      body {
+        padding: 0px 15px 0px 15px;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .demo-canvas {
+        box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      .button {
+        border-radius: 20px;
+        padding: 8px 15px;
+        margin-top: 10px;
+        color: #fff;
+        background-color: #303133;
+        border-color: #303133;
+        cursor: pointer;
+        outline: none;
+        line-height: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2 class="text-center">Bézier curve</h2>
+    <div class="text-center">
+      <input
+        id="bezier-degree"
+        class="text-center"
+        type="number"
+        min="1"
+        value="2"
+        style="width: 50px;"
+        oninput="syncDegree()"
+      />
+      阶贝塞尔曲线（需要 n+1 个控制点）
+      <!-- 阶的贝兹曲线，即双阶贝兹曲线之间的插值。 -->
+      <br />
+      <button class="button" onclick="resizeCanvas()">清除画布</button>
+    </div>
+    <hr />
+    <div id="canvas-box" class="text-center">
+      <canvas id="bezier-canvas" class="demo-canvas"></canvas>
+    </div>
+    <h6 class="text-center" style="margin-top: 10px;margin-bottom: 0px;">
+      @YunYouJun
+    </h6>
+
+    <script type="text/javascript">
+      const bCanvas = document.getElementById("bezier-canvas");
+      const ctx = bCanvas.getContext("2d");
+      let bezierDegree = 2;
+      let controlPoints = new Array();
+
+      resizeCanvas();
+      window.onresize = resizeCanvas;
+
+      bCanvas.onmousedown = function(e) {
+        e.preventDefault();
+        ctx.strokeStyle = "rgba(100,100,100,0.3)";
+
+        // Transform coordinates
+        let bBox = bCanvas.getBoundingClientRect();
+        curPoint = {
+          x: e.clientX - bBox.left,
+          y: e.clientY - bBox.top
+        };
+
+        // store
+        controlPoints.push({
+          x: curPoint.x,
+          y: curPoint.y
+        });
+
+        ctx.beginPath();
+        ctx.arc(curPoint.x, curPoint.y, 5, 0, Math.PI * 2);
+        ctx.stroke();
+
+        let cpLen = controlPoints.length;
+        if (cpLen >= 2) {
+          ctx.beginPath();
+          ctx.moveTo(controlPoints[cpLen-2].x, controlPoints[cpLen-2].y)
+          ctx.lineTo(curPoint.x, curPoint.y);
+          ctx.stroke();
+        }
+
+        if (cpLen == bezierDegree + 1) {
+          bezierCurve(controlPoints);
+          controlPoints = [];
+        }
+      };
+
+      function bezierCurve(controlPoints) {
+        let x, y, cp;
+        let from = 0;
+        let step = 0.01;
+        ctx.beginPath();
+        if (controlPoints.length == 2) {
+          ctx.moveTo(controlPoints[0].x, controlPoints[0].y);
+          ctx.lineTo(controlPoints[1].x, controlPoints[1].y);
+          ctx.strokeStyle = "rgba(0, 0, 0, 1)";
+          ctx.stroke();
+        } else if (controlPoints.length > 2) {
+          ctx.moveTo(controlPoints[0].x, controlPoints[0].y);
+          while (from <= 1) {
+            from += step;
+            cp = bezierPoint(controlPoints, from);
+            ctx.lineTo(cp.x, cp.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      function bezierPoint(controlPoints, from) {
+        let degree = controlPoints.length;
+        let bp = new Array();
+        let i, j;
+
+        // initialize
+        for (i = 0; i < degree; i++) {
+          bp[i] = {
+            x: controlPoints[i].x,
+            y: controlPoints[i].y
+          };
+        }
+        // core
+        for (j = 1; j <= degree; j++) {
+          for (i = 0; i < degree - j; i++) {
+            bp[i].x = (1.0 - from) * bp[i].x + from * bp[i + 1].x;
+            bp[i].y = (1.0 - from) * bp[i].y + from * bp[i + 1].y;
+          }
+        }
+        return bp[0];
+      }
+
+      // Using external css will stretch canvas
+      function resizeCanvas() {
+        let canvasBox = document.getElementById("canvas-box");
+        let width = canvasBox.clientWidth;
+        let height = window.innerHeight - 200;
+        bCanvas.width = width;
+        bCanvas.height = height;
+
+        // clean data
+        controlPoints = []
+      }
+
+      function syncDegree() {
+        bezierDegree = parseInt(document.getElementById("bezier-degree").value);
+      }
+    </script>
+  </body>
+</html>
