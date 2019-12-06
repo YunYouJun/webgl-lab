@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Head from 'next/head'
 import "./index.css";
 
 interface point {
@@ -29,11 +30,10 @@ function bezierCurve(ctx, controlPoints: Array<point>) {
   }
 }
 
-function bezierPoint(controlPoints, from) {
+function bezierPoint(controlPoints: Array<point>, from: number) {
   let degree: number = controlPoints.length;
   let bp: Array<point> = new Array();
   let i: number, j: number;
-
   // initialize
   for (i = 0; i < degree; i++) {
     bp[i] = {
@@ -51,29 +51,27 @@ function bezierPoint(controlPoints, from) {
   return bp[0];
 }
 
-function resizeCanvas(canvas) {
+function resizeCanvas() {
   let canvasBox = document.getElementById("canvas-box");
   let width = canvasBox.clientWidth;
   let height = window.innerHeight - 200;
+  const canvas: any = document.getElementById("bezier-canvas");
   canvas.width = width;
   canvas.height = height;
-
   // clean data
   controlPoints = [];
 }
 
-const App: React.FC = props => {
+function BezierCurve() {
   const [degree, setDegree] = useState(2);
-
+  
   useEffect(() => {
-    const bCanvas = document.getElementById("bezier-canvas");
-    resizeCanvas(bCanvas);
+    resizeCanvas();
     window.onresize = resizeCanvas;
-  });
+  }, []);
 
   function handleClick(e) {
     e.preventDefault();
-    console.log(e);
     const bCanvas: any = document.getElementById("bezier-canvas");
     let ctx = bCanvas.getContext("2d");
     ctx.strokeStyle = "rgba(100,100,100,0.3)";
@@ -95,7 +93,7 @@ const App: React.FC = props => {
     ctx.arc(curPoint.x, curPoint.y, 5, 0, Math.PI * 2);
     ctx.stroke();
 
-    let cpLen = controlPoints.length;
+    let cpLen: number = controlPoints.length;
     if (cpLen >= 2) {
       ctx.beginPath();
       ctx.moveTo(controlPoints[cpLen - 2].x, controlPoints[cpLen - 2].y);
@@ -103,7 +101,7 @@ const App: React.FC = props => {
       ctx.stroke();
     }
 
-    if (cpLen == degree + 1) {
+    if (cpLen - 1 == degree) {
       bezierCurve(ctx, controlPoints);
       controlPoints = [];
     }
@@ -111,6 +109,9 @@ const App: React.FC = props => {
 
   return (
     <div className="container">
+      <Head>
+        <title>Bézier curve</title>
+      </Head>
       <h2 className="text-center">Bézier curve</h2>
       <div className="text-center">
         <input
@@ -146,4 +147,4 @@ const App: React.FC = props => {
   );
 };
 
-export default App;
+export default BezierCurve;
