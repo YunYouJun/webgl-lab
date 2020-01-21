@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Head from "next/head";
-import { Context } from "vm";
+import Layout from "../components/Layout";
+import { useState, useEffect } from "react";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 
 interface point {
   x: number;
@@ -9,7 +10,7 @@ interface point {
 
 let controlPoints: Array<point> = new Array();
 
-function bezierCurve(ctx: Context, controlPoints: Array<point>) {
+function bezierCurve(ctx: any, controlPoints: Array<point>) {
   let cp: point;
   let from: number = 0;
   let step: number = 0.01;
@@ -108,32 +109,29 @@ function BezierCurve() {
   }
 
   return (
-    <div className="container">
-      <Head>
-        <title>Bézier curve</title>
-      </Head>
-      <h2 className="text-center">Bézier curve</h2>
-      <div className="text-center">
-        <input
-          id="bezier-degree"
-          className="text-center"
-          type="number"
-          min="1"
-          value={degree}
-          style={{ width: 50 }}
-          onChange={(event: any) => {
-            setDegree(event.target.value);
-          }}
-        />
-        阶贝塞尔曲线（需要 n+1 个控制点）
+    <Layout title="Bézier curve">
+      <Box textAlign="center">
+        <h5>
+          <input
+            id="bezier-degree"
+            className="text-center"
+            type="number"
+            min="1"
+            value={degree}
+            style={{ width: 50 }}
+            onChange={(event: any) => {
+              setDegree(event.target.value);
+            }}
+          />
+          阶贝塞尔曲线（需要 n+1 个控制点）
+        </h5>
         {/* 阶的贝兹曲线，即双阶贝兹曲线之间的插值。 */}
-        <br />
-        <button className="button" onClick={resizeCanvas}>
+        <Button variant="contained" onClick={resizeCanvas}>
           清除画布
-        </button>
-      </div>
+        </Button>
+      </Box>
       <hr />
-      <div id="canvas-box" className="text-center">
+      <Box id="canvas-box" textAlign="center">
         <canvas
           id="bezier-canvas"
           className="demo-canvas"
@@ -141,39 +139,8 @@ function BezierCurve() {
             handleClick(e);
           }}
         ></canvas>
-      </div>
-      <h6 className="text-center copyright">@YunYouJun</h6>
-      <style jsx>{`
-        body {
-          padding: 0px 15px 0px 15px;
-        }
-
-        .text-center {
-          text-align: center;
-        }
-
-        .demo-canvas {
-          box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.12);
-        }
-
-        .button {
-          border-radius: 20px;
-          padding: 8px 15px;
-          margin-top: 10px;
-          color: #fff;
-          background-color: #303133;
-          border-color: #303133;
-          cursor: pointer;
-          outline: none;
-          line-height: 1;
-        }
-
-        .copyright {
-          margin-top: 10px;
-          margin-bottom: 0px;
-        }
-      `}</style>
-    </div>
+      </Box>
+    </Layout>
   );
 }
 
