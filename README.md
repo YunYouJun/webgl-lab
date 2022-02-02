@@ -1,4 +1,4 @@
-# WebGl Lab
+# WebGL Lab
 
 A lab space for learing WebGL.
 

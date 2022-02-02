@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import Paper from "@material-ui/core/Paper";
+import { Paper } from "@mui/material";
 
 const HelloCanvas: React.FunctionComponent = () => (
   <Layout title="Hello Canvas">

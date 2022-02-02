@@ -3,19 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@google/model-viewer": "^0.8.1",
-    "@material-ui/core": "^4.8.3",
-    "@material-ui/icons": "^4.5.1",
-    "@types/node": "12.12.14",
-    "@types/react": "16.9.14",
-    "@types/react-dom": "16.9.4",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@google/model-viewer": "^1.10.1",
+    "@mui/icons-material": "^5.3.1",
+    "@mui/material": "^5.4.0",
+    "@mui/styles": "^5.3.0",
+    "@types/node": "17.0.14",
+    "@types/react": "17.0.38",
+    "@types/react-dom": "17.0.11",
     "clsx": "^1.0.4",
-    "next": "^9.1.4",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-markdown": "^4.3.1",
-    "react-scripts": "3.2.0",
-    "typescript": "^3.7.5"
+    "next": "^12.0.10",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-markdown": "^8.0.0",
+    "react-scripts": "5.0.0",
+    "typescript": "^4.5.5"
   },
   "scripts": {
     "dev": "next",
@@ -38,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "prettier-plugin-tailwindcss": "^0.1.4",
+    "tailwindcss": "^3.0.18"
   }
 }

@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
+import { Button, Box } from "@mui/material";
+import styles from "../styles/bezier-curve.module.css";
 
 interface point {
   x: number;
@@ -39,7 +39,7 @@ function bezierPoint(controlPoints: Array<point>, from: number) {
   for (i = 0; i < degree; i++) {
     bp[i] = {
       x: controlPoints[i].x,
-      y: controlPoints[i].y
+      y: controlPoints[i].y,
     };
   }
   // core
@@ -55,7 +55,7 @@ function bezierPoint(controlPoints: Array<point>, from: number) {
 function resizeCanvas() {
   let canvasBox: any = document.getElementById("canvas-box");
   let width = canvasBox.clientWidth;
-  let height = window.innerHeight - 200;
+  let height = window.innerHeight - 250;
   const canvas: any = document.getElementById("bezier-canvas");
   canvas.width = width;
   canvas.height = height;
@@ -81,13 +81,13 @@ function BezierCurve() {
     let bBox = bCanvas.getBoundingClientRect();
     let curPoint: point = {
       x: e.clientX - bBox.left,
-      y: e.clientY - bBox.top
+      y: e.clientY - bBox.top,
     };
 
     // store
     controlPoints.push({
       x: curPoint.x,
-      y: curPoint.y
+      y: curPoint.y,
     });
 
     ctx.beginPath();
@@ -130,12 +130,12 @@ function BezierCurve() {
           清除画布
         </Button>
       </Box>
-      <hr />
+      <hr style={{ opacity: 0.2 }} />
       <Box id="canvas-box" textAlign="center">
         <canvas
           id="bezier-canvas"
-          className="demo-canvas"
-          onMouseDown={e => {
+          className={styles["demo-canvas"]}
+          onMouseDown={(e) => {
             handleClick(e);
           }}
         ></canvas>
