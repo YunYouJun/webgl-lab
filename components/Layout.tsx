@@ -18,6 +18,8 @@ import {
   Link,
 } from '@mui/material'
 
+import { FC } from 'react'
+
 import MenuIcon from '@mui/icons-material/Menu'
 import LabelIcon from '@mui/icons-material/Label'
 
@@ -40,17 +42,13 @@ function Copyright() {
 
 function getExamples() {
   return [
-    { id: 'bezier-curve', title: 'Bézier curve' },
-    { id: 'model-view', title: 'Moodel View' },
+    { id: 'bezier-curve', title: 'Bezier curve' },
+    { id: 'model-view', title: 'Model View' },
     { id: 'hello-canvas', title: 'Hello Canvas' },
   ]
 }
 
-function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />
-}
-
-export default function Layout(props) {
+export const Layout: FC<{ title: string }> = (props) => {
   const [state, setState] = React.useState({
     drawer: false,
   })
@@ -79,12 +77,12 @@ export default function Layout(props) {
     >
       <List>
         {getExamples().map((example) => (
-          <ListItemLink href={`/${example.id}`} button key={example.id}>
+          <ListItem href={`/${example.id}`} button key={example.id}>
             <ListItemIcon>
               <LabelIcon />
             </ListItemIcon>
             <ListItemText primary={example.title} />
-          </ListItemLink>
+          </ListItem>
         ))}
       </List>
     </div>
@@ -126,11 +124,8 @@ export default function Layout(props) {
           </Box>
         </Container>
       </main>
-      {/* <style jsx global>{`
-        .demo-canvas {
-          box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.12);
-        }
-      `}</style> */}
     </div>
   )
 }
+
+export default Layout
