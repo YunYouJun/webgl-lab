@@ -77,7 +77,12 @@ export const Layout: FC<{ title: string }> = (props) => {
     >
       <List>
         {getExamples().map((example) => (
-          <ListItem href={`/${example.id}`} button key={example.id}>
+          <ListItem
+            component="a"
+            href={`/${example.id}`}
+            button
+            key={example.id}
+          >
             <ListItemIcon>
               <LabelIcon />
             </ListItemIcon>
